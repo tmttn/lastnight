@@ -1,0 +1,52 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { app } from "../../firebase/server";
+import { getFirestore } from "firebase-admin/firestore";
+
+interface Vibe {
+    title: string;
+}
+
+const { id } = Astro.params;
+
+if (!id) {
+    return Astro.redirect("/404");
+}
+
+const db = getFirestore(app);
+const vibesRef = db.collection("vibes");
+const vibeSnapshot = await vibesRef.doc(id).get();
+
+if (!vibeSnapshot.exists) {
+    return Astro.redirect("/404");
+}
+
+const vibe = vibeSnapshot.data() as Vibe;
+---
+
+<Layout title="Edit {vibe.title}" description="Edit a Vibe">
+    <h1>Edit {vibe.title}</h1>
+    <p>Here you can edit or delete your vibe's data.</p>
+    <form method="post" action={`/api/vibes/${id}`}>
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" value={vibe.title} />
+        <button type="submit">Edit Vibe</button>
+    </form>
+    <button type="button" id="delete-document">Delete</button>
+</Layout>
+<script>
+    const deleteButton = document.getElementById(
+        "delete-document",
+    ) as HTMLButtonElement;
+    const url = document
+        .querySelector("form")
+        ?.getAttribute("action") as string;
+    deleteButton.addEventListener("click", async () => {
+        const response = await fetch(url, {
+            method: "DELETE",
+        });
+        if (response.redirected) {
+            window.location.assign(response.url);
+        }
+    });
+</script>

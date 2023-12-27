@@ -1,0 +1,29 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { app } from "../../firebase/server";
+import { getFirestore } from "firebase-admin/firestore";
+
+interface Vibe {
+    title: string;
+}
+
+const { id } = Astro.params;
+
+if (!id) {
+    return Astro.redirect("/404");
+}
+
+const db = getFirestore(app);
+const vibesRef = db.collection("vibes");
+const vibeSnapshot = await vibesRef.doc(id).get();
+
+if (!vibeSnapshot.exists) {
+    return Astro.redirect("/404");
+}
+
+const vibe = vibeSnapshot.data() as Vibe;
+---
+
+<Layout title={vibe.title} description="This is one of your vibes">
+    <h1>{vibe.title}</h1>
+</Layout>
