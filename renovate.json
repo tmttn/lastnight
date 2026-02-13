@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "default:automergeMinor",
+    "default:enableVulnerabilityAlerts",
+    "security:minimumReleaseAgeNpm",
+    "replacements:all"
+  ],
+  "automergeType": "pr",
+  "automergeStrategy": "squash",
+  "platformAutomerge": false
+}
