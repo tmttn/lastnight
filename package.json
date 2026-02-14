@@ -13,7 +13,7 @@
     "@astrojs/check": "^0.9.0",
     "@astrojs/netlify": "^6.0.0",
     "astro": "^5.0.0",
-    "firebase": "^10.7.1",
+    "firebase": "^12.0.0",
     "firebase-admin": "^13.0.0",
     "typescript": "^5.3.3"
   },
