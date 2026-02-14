@@ -10,7 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.3.4",
+    "@astrojs/check": "^0.9.0",
     "@astrojs/netlify": "^4.0.1",
     "astro": "^4.0.7",
     "firebase": "^10.7.1",
